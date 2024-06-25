@@ -18,14 +18,11 @@ server.get('/alunos', async () => {
     return await database.list()
 })
 
-server.post('/alunos', async (req, res) => {
-    const { nome, idade, matriculado, time } = req.body
+server.post('/animes', async (req, res) => {
+    const {Nome,Estudio,Episodios,Completo } = req.body
 
     await database.create({
-        nome,
-        idade,
-        matriculado,
-        time
+        Nome,Estudio,Episodios,Completo
     })
 
     return res.status(201).send()
@@ -51,6 +48,20 @@ server.delete('/alunos/:id', async (req, res) => {
     return res.status(200).send()
 })
 
+function validateAnime({ Nome, Estudio, Episodios, Completo }) {
+    if (typeof Nome !== 'string' || Nome.trim() === '') {
+        throw new Error("Validation failed for parameter 'Nome'. Invalid string.");
+    }
+    if (typeof Estudio !== 'string' || Estudio.trim() === '') {
+        throw new Error("Validation failed for parameter 'Estudio'. Invalid string.");
+    }
+    if (typeof Episodios !== 'number' || Episodios <= 0) {
+        throw new Error("Validation failed for parameter 'Episodios'. Invalid number.");
+    }
+    if (typeof Completo !== 'string') {
+        throw new Error("Validation failed for parameter 'Completo'. Invalid boolean.");
+    }
+}
 server.listen({
     port: 3333
 })
