@@ -7,19 +7,34 @@ export class DatabaseSql {
         return alunos.recordset
     }
 
-    async create(anime) {
+    async create(Nome,Estudio,Episodios,Completo) {
         const AnimeId = randomUUID()
 
-        const {Nome, Estudio, Episodios, Completo } = anime
+        console.log(AnimeId, Nome, Estudio, Episodios, Completo );
+        //const {Nome, Estudio, Episodios, Completo } = anime
 
+        
         await db.query`insert into tbl_Animes (ID, Nome, Estudio, Episodios, Completo) values
             (${AnimeId}, ${Nome}, ${Estudio}, ${Episodios}, ${Completo})`
     }
+        
+    async update(id, Nome, Estudio, Episodios, Completo) {
+        //const { Nome, Estudio, Episodios, Completo } = anime
 
-    async update(id, aluno) {
-        const { nome, idade, matriculado, time } = aluno
-
-        await db.query`update tbl_Animes set name = ${nome}, age = ${idade}, registered = ${matriculado}, team = ${time}`
+        await db.query`
+        UPDATE tbl_Animes
+        SET Nome = '${Nome}',
+        Estudio = '${Estudio}',
+        Episodios = ${Episodios},
+        Completo = '${Completo}'
+        WHERE ID = '${id}'
+        `
+        console.log(`UPDATE tbl_Animes
+        SET Nome = '${Nome}',
+        Estudio = '${Estudio}',
+        Episodios = ${Episodios},
+        Completo = ${Completo}
+        WHERE ID = '${id}'`);
     }
 
     async delete(id) {
